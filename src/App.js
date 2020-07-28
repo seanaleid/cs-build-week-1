@@ -1,23 +1,27 @@
 import React from 'react';
-import './App.css';
 import styled from 'styled-components'
 
+import Header from './components/header.js';
 import Grid from './components/grid.js';
+import Rules from './components/rules.js';
+import Footer from './components/footer.js';
 
-const Home = styled.div`
-  display: grid;
-  grid-template-columns: 0.3fr 2.5fr 1.2fr 0.1fr;
-  grid-template-rows: 0.2fr 2.6fr 0.2fr;
-  gap: 1px 1px;
-  grid-template-areas: ". . . ." ". . . ." ". . . .";
+const Mid = styled.div`
+  display: flex;
+  margin: 3%;
+  justify-content: space-evenly;
 `;
 
 function App() {
-
   return (
-    <Home >
-      <Grid />
-    </Home>
+    <>
+      <Header />
+      <Mid>
+        <Grid />
+        <Rules />
+      </Mid>
+      <Footer />
+    </>
   );
 }
 

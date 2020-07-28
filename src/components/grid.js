@@ -1,5 +1,23 @@
 import React, { useState, useCallback, useRef } from 'react';
 import produce from 'immer';
+import styled from 'styled-components';
+
+const GridContainer = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const MainGrid = styled.div`
+  margin: 2%;
+  display: flex;
+  justify-content:center;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
 
 const gridRows = 25;
 const gridColumns = 25;
@@ -63,37 +81,9 @@ function Grid() {
   }, [])
 
   return (
-    <div>
-      <button 
-        onClick={() => {
-          setRunning(!running);
-          if(!running){
-            runningRef.current = true;
-            simulation();
-          }
-        }}
-      >
-        {running ? 'Stop' : 'Start'}
-      </button>
-      <button
-        onClick={() => {
-          const rows = [];
-          for(let i = 0; i < gridRows; i++){
-            rows.push(Array.from(Array(gridColumns), () => (Math.random() > 0.7 ? 1 : 0)));
-          }
-          setGrid(rows);
-        }}
-      >
-        Random
-      </button>
-      <button
-        onClick={() => {
-          setGrid(createEmptyGrid());
-        }}
-      >
-        Clear
-      </button>
-      <div
+    <GridContainer>
+      <MainGrid
+        class='Main-Grid'
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${gridColumns}, 20px)`
@@ -118,8 +108,42 @@ function Grid() {
           />
         ))
       )}
-      </div>
-  </div>
+      </MainGrid>
+      <Buttons>
+        <button 
+          class='Button1'
+          onClick={() => {
+            setRunning(!running);
+            if(!running){
+              runningRef.current = true;
+              simulation();
+            }
+          }}
+        >
+          {running ? 'Stop' : 'Start'}
+        </button>
+        <button
+          class='Button2'
+          onClick={() => {
+            const rows = [];
+            for(let i = 0; i < gridRows; i++){
+              rows.push(Array.from(Array(gridColumns), () => (Math.random() > 0.7 ? 1 : 0)));
+            }
+            setGrid(rows);
+          }}
+        >
+          Random
+        </button>
+        <button
+          class='Button3'
+          onClick={() => {
+            setGrid(createEmptyGrid());
+          }}
+        >
+          Clear
+        </button>
+      </Buttons>
+  </GridContainer>
   )
 }
 
