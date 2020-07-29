@@ -16,9 +16,9 @@ function App() {
   return (
     <>
       <Header />
+      <Rules />
       <Mid>
         <Grid />
-        <Rules />
       </Mid>
       <Footer />
     </>

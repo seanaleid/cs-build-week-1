@@ -19,6 +19,11 @@ const Buttons = styled.div`
   justify-content: space-evenly;
 `;
 
+const Controls = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
+
 const gridRows = 25;
 const gridColumns = 25;
 
@@ -34,11 +39,12 @@ const coordinates = [
 ];
 
 const createEmptyGrid = () => {
-    const rows = [];
-    for(let i = 0; i < gridRows; i++){
-        rows.push(Array.from(Array(gridColumns), () => 0));
-    };
-    return rows;
+  const rows = [];
+  for(let i = 0; i < gridRows; i++){
+    rows.push(Array.from(Array(gridColumns), () => 0));
+  };
+  console.log(rows);
+  return rows;
 };
 
 function Grid() {
@@ -49,41 +55,54 @@ function Grid() {
   const [running, setRunning] = useState(false);
   const runningRef = useRef(running);
   runningRef.current = running;
+  const [runTime, setRunTime] = useState(50);
+  let runTimeRef = useRef(runTime);
+  runTimeRef.current = runTime;
+  const [count, setCount] = useState(0);
+  let countRef = useRef(count);
+  countRef.current = count;
+
+  const handleTimeChange = (e) => {
+    console.log(typeof(e.target.value), e.target.value);
+    setRunTime(e.target.value);
+  }
+
+  console.log(typeof runTime, runTime);
 
   const simulation = useCallback(() => {
     if(!runningRef.current){
         return;
     };
-  
+
     setGrid(g => {
       return produce(g, gridCopy => {
-      for(let i = 0; i < gridRows; i++){
-        for(let j = 0; j < gridColumns; j++){
-          let neighbors = 0;
-          coordinates.forEach(([x,y]) => {
-            const newI = i + x;
-            const newJ = j + y;
-            if(newI >= 0 && newI < gridRows && newJ >= 0 && newJ < gridColumns){
+        for(let i = 0; i < gridRows; i++){
+          for(let j = 0; j < gridColumns; j++){
+            let neighbors = 0;
+            coordinates.forEach(([x,y]) => {
+              const newI = i + x;
+              const newJ = j + y;
+              if(newI >= 0 && newI < gridRows && newJ >= 0 && newJ < gridColumns){
                 neighbors += g[newI][newJ];
-            }
-          });
+              }
+            });
 
-        if(neighbors < 2 || neighbors > 3){
-          gridCopy[i][j] = 0;
-        }else if(g[i][j] === 0 && neighbors === 3){
-          gridCopy[i][j] = 1;
+            if(neighbors < 2 || neighbors > 3){
+              gridCopy[i][j] = 0;
+            }else if(g[i][j] === 0 && neighbors === 3){
+              gridCopy[i][j] = 1;
+            }
+          }
         }
-        }
-      }
       });
     });
-    setTimeout(simulation, 100);
+    setCount(countRef.current+1);
+    setTimeout(simulation, runTimeRef.current);
   }, [])
 
   return (
     <GridContainer>
       <MainGrid
-        class='Main-Grid'
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${gridColumns}, 20px)`
@@ -102,8 +121,8 @@ function Grid() {
             style={{
               width: 20,
               height: 20,
-              backgroundColor: grid[i][j] ? 'blue' : undefined,
-              border: 'solid 1px black'
+              backgroundColor: grid[i][j] ? 'rgb(31,199,66)' : undefined,
+              border: 'solid 1px rgba(191,191,191,0.2)'
             }}
           />
         ))
@@ -111,7 +130,6 @@ function Grid() {
       </MainGrid>
       <Buttons>
         <button 
-          class='Button1'
           onClick={() => {
             setRunning(!running);
             if(!running){
@@ -120,14 +138,13 @@ function Grid() {
             }
           }}
         >
-          {running ? 'Stop' : 'Start'}
+          {!running ? 'Start' : 'Stop'}
         </button>
         <button
-          class='Button2'
           onClick={() => {
             const rows = [];
             for(let i = 0; i < gridRows; i++){
-              rows.push(Array.from(Array(gridColumns), () => (Math.random() > 0.7 ? 1 : 0)));
+              rows.push(Array.from(Array(gridColumns), () => (Math.random() > 0.5 ? 1 : 0)));
             }
             setGrid(rows);
           }}
@@ -135,7 +152,6 @@ function Grid() {
           Random
         </button>
         <button
-          class='Button3'
           onClick={() => {
             setGrid(createEmptyGrid());
           }}
@@ -143,6 +159,20 @@ function Grid() {
           Clear
         </button>
       </Buttons>
+      <Controls>
+        <p>Generation {count}</p>
+        <select 
+          onChange={handleTimeChange}
+        >
+          <option value='50'>50ms</option>
+          <option value='100'>100ms</option>
+          <option value='200'>200ms</option>
+          <option value='500'>500ms</option>
+          <option value='1000'>1000ms</option>
+        </select>
+        {/* Input below works too! onChange not onClick */}
+        {/* <input type='range' min='50' max='1000' value={runTime} step='50' onChange={handleTimeChange}></input> */}
+      </Controls>
   </GridContainer>
   )
 }
