@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import produce from 'immer';
 import styled from 'styled-components';
 
@@ -52,22 +52,29 @@ function Grid() {
   const [grid, setGrid] = useState(() => {
     return createEmptyGrid();
   });
+  const gridRef = useRef(grid);
+  gridRef.current = grid;
   const [running, setRunning] = useState(false);
   const runningRef = useRef(running);
   runningRef.current = running;
   const [runTime, setRunTime] = useState(50);
   let runTimeRef = useRef(runTime);
   runTimeRef.current = runTime;
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   let countRef = useRef(count);
   countRef.current = count;
+  const [cache, setCache] = useState({});
+
+  useEffect(() => {
+    setCache({
+      ...cache,
+      [countRef.current]: gridRef.current
+    });
+  }, [gridRef.current]);
 
   const handleTimeChange = (e) => {
-    console.log(typeof(e.target.value), e.target.value);
     setRunTime(e.target.value);
   }
-
-  console.log(typeof runTime, runTime);
 
   const simulation = useCallback(() => {
     if(!runningRef.current){
@@ -75,7 +82,7 @@ function Grid() {
     };
 
     setGrid(g => {
-      return produce(g, gridCopy => {
+      return produce(g, (gridCopy) => {
         for(let i = 0; i < gridRows; i++){
           for(let j = 0; j < gridColumns; j++){
             let neighbors = 0;
@@ -95,10 +102,35 @@ function Grid() {
           }
         }
       });
-    });
-    setCount(countRef.current+1);
+    });   
+    setCount(countRef.current+=1);
     setTimeout(simulation, runTimeRef.current);
-  }, [])
+  }, [runTime])
+  
+
+ 
+
+  const gridDown = () => {
+    if (count > 1) {
+      setCount(count-1);
+      setGrid(cache[count-1]);
+    } else {
+      return;
+    }
+  }
+
+  const gridUp = () => {
+    if (count > Object.keys(cache).length-1){
+      return;
+    } else {
+      setCount(count+1);
+      setGrid(cache[count+1]);
+    }
+  }
+
+  console.log(Object.keys(cache).length);
+  console.log(cache);
+  console.log(count);
 
   return (
     <GridContainer>
@@ -154,13 +186,26 @@ function Grid() {
         <button
           onClick={() => {
             setGrid(createEmptyGrid());
+            setCount(1);
           }}
         >
           Clear
         </button>
       </Buttons>
       <Controls>
-        <p>Generation {count}</p>
+        <button
+          onClick={gridDown}
+        ><span
+          role='img'
+          aria-label='emoji two arrows pointing to the left'
+        >⏪</span></button>
+        <p>{`Generation ${count}`}</p>
+        <button
+          onClick={gridUp}
+        ><span
+          role='img'
+          aria-label='emoji two arrows pointing to the right'
+        >⏩</span></button>
         <select 
           onChange={handleTimeChange}
         >

@@ -11,7 +11,7 @@ const Foot = styled.div`
 function Footer() {
   return (
     <Foot>
-      <h2>Footer</h2>
+      <h6>Coded by <a href="https://www.seanaleid.com/">Sean Naleid</a></h6>
     </Foot>
   )
 }
