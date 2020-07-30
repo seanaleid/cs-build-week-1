@@ -29,6 +29,7 @@ const Bold = styled.p`
   font-weight: 1000;
   font-family: 'Roboto', sans-serif;
   text-align: justified;
+  color: rgba(31,199,66,1);
 `;
 
 const P = styled.p`
@@ -40,6 +41,10 @@ const Controls = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+`;
+
+const Button = styled.button`
+  font-family: 'Orbitron', sans-serif;
 `;
 
 function Rules({grid, setGrid}) {
@@ -57,9 +62,9 @@ function Rules({grid, setGrid}) {
       <Bold>How to use the controls:</Bold>
       <P>If you're not sure where to begin? Click one of the example buttons below and hit 'Start'. You can also click the random button to generate a random grid. </P>
       <Controls>
-        <button onClick={() => setGrid(hammerhead)}> Hammerhead </button>
-        <button onClick={() => setGrid(pentadecathlon)}> Pentadecathlon </button>
-        <button onClick={() => setGrid(pulsar)}> Pulsar </button>
+        <Button onClick={() => setGrid(hammerhead)}> Hammerhead </Button>
+        <Button onClick={() => setGrid(pentadecathlon)}> Pentadecathlon </Button>
+        <Button onClick={() => setGrid(pulsar)}> Pulsar </Button>
       </Controls>
     </RulesBox>
   )

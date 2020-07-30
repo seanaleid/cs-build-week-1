@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import produce from 'immer';
 import styled from 'styled-components';
-// import {hammerhead, pentadecathlon, pulsar} from './examples.js';
-
 
 const GridContainer = styled.div`
   width: 50%;
@@ -24,6 +22,20 @@ const Controls = styled.div`
   align-items: center;
 `;
 
+const PlusMinus = styled.div`
+  background-color: none;
+  color: rgba(31,199,66,1);
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 1rem;
+  font-family: 'Orbitron', sans-serif;
+`;
+
+const Button = styled.button`
+  font-family: 'Orbitron', sans-serif;
+`;
+
 const Generation = styled.p`
   color: rgba(31,199,66,1);
   font-family: 'Orbitron', sans-serif;
@@ -33,10 +45,8 @@ const Generation = styled.p`
 const Select = styled.select`
   border-radius: 10%;
   height: 50%;
+  font-family: 'Orbitron', sans-serif;
 `;
-
-// const gridRows = 25;
-// const gridColumns = 25;
 
 const coordinates = [
     [1,-1],
@@ -49,20 +59,8 @@ const coordinates = [
     [0,-1]
 ];
 
-// const createEmptyGrid = () => {
-//   const rows = [];
-//   for(let i = 0; i < gridRows; i++){
-//     rows.push(Array.from(Array(gridColumns), () => 0));
-//   };
-//   console.log(rows);
-//   return rows;
-// };
-
 function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
   // Set up slices of state
-  // const [grid, setGrid] = useState(() => {
-  //   return createEmptyGrid();
-  // });
   const gridRef = useRef(grid);
   gridRef.current = grid;
   const [running, setRunning] = useState(false);
@@ -136,16 +134,12 @@ function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
     }
   }
 
-  console.log(Object.keys(cache).length);
-  console.log(cache);
-  console.log(count);
-
   return (
     <GridContainer>
       <Controls>
-        <button onClick={gridDown}> - </button>
+        <PlusMinus onClick={gridDown}> - </PlusMinus>
         <Generation>{`Generation ${count}`}</Generation>
-        <button onClick={gridUp}> + </button>
+        <PlusMinus onClick={gridUp}> + </PlusMinus>
         <Select onChange={handleTimeChange}>
           <option value='50'>50ms</option>
           <option value='100'>100ms</option>
@@ -155,6 +149,38 @@ function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
         </Select>
         {/* Input below works too! onChange not onClick */}
         {/* <input type='range' min='50' max='1000' value={runTime} step='50' onChange={handleTimeChange}></input> */}
+      </Controls>
+      <Controls>
+        <Button 
+          onClick={() => {
+            setRunning(!running);
+            if(!running){
+              runningRef.current = true;
+              simulation();
+            }
+          }}
+        >
+          {!running ? 'Start' : 'Stop'}
+        </Button>
+        <Button
+          onClick={() => {
+            const rows = [];
+            for(let i = 0; i < gridRows; i++){
+              rows.push(Array.from(Array(gridColumns), () => (Math.random() > 0.5 ? 1 : 0)));
+            }
+            setGrid(rows);
+          }}
+        >
+          Random
+        </Button>
+        <Button
+          onClick={() => {
+            setGrid(createEmptyGrid());
+            setCount(1);
+          }}
+        >
+          Clear
+        </Button>
       </Controls>
       <MainGrid
         style={{
@@ -184,43 +210,6 @@ function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
         ))
       )}
       </MainGrid>
-      <Controls>
-        <button 
-          onClick={() => {
-            setRunning(!running);
-            if(!running){
-              runningRef.current = true;
-              simulation();
-            }
-          }}
-        >
-          {!running ? 'Start' : 'Stop'}
-        </button>
-        <button
-          onClick={() => {
-            const rows = [];
-            for(let i = 0; i < gridRows; i++){
-              rows.push(Array.from(Array(gridColumns), () => (Math.random() > 0.5 ? 1 : 0)));
-            }
-            setGrid(rows);
-          }}
-        >
-          Random
-        </button>
-        <button
-          onClick={() => {
-            setGrid(createEmptyGrid());
-            setCount(1);
-          }}
-        >
-          Clear
-        </button>
-      </Controls>
-      {/* <Controls>
-        <button onClick={() => setGrid(hammerhead)}> Hammerhead </button>
-        <button onClick={() => setGrid(pentadecathlon)}> Pentadecathlon </button>
-        <button onClick={() => setGrid(pulsar)}> Pulsar </button>
-      </Controls> */}
   </GridContainer>
   )
 }
