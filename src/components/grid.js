@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import produce from 'immer';
 import styled from 'styled-components';
-import {hammerhead, pentadecathlon} from './examples.js';
+import {hammerhead, pentadecathlon, pulsar} from './examples.js';
 
 const GridContainer = styled.div`
   width: 50%;
@@ -227,6 +227,11 @@ function Grid() {
           onClick={() => setGrid(pentadecathlon)}
         >
           Pentadecathlon
+        </button>
+        <button
+          onClick={() => setGrid(pulsar)}
+        >
+          Pulsar
         </button>
       </Controls>
   </GridContainer>
