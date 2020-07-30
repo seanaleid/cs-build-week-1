@@ -18,7 +18,7 @@ const MainGrid = styled.div`
 
 const Controls = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -34,6 +34,7 @@ const PlusMinus = styled.div`
 
 const Button = styled.button`
   font-family: 'Orbitron', sans-serif;
+  margin: 0% 5% 0%;
 `;
 
 const Generation = styled.p`

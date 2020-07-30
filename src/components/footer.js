@@ -10,6 +10,7 @@ const Foot = styled.div`
 
 const Text = styled.h6`
   font-family: 'Orbitron', sans-serif;
+  font-weight: 100;
 `;
 
 const NewTab = styled.a`
