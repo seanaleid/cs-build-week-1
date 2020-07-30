@@ -8,10 +8,18 @@ const Foot = styled.div`
   justify-content: center;
 `;
 
+const NewTab = styled.a`
+  text-decoration: none;
+  color: black;
+  &:hover {
+    color: rgba(31,199,66,1);
+  }
+`;
+
 function Footer() {
   return (
     <Foot>
-      <h6>Coded by <a href="https://www.seanaleid.com/">Sean Naleid</a></h6>
+      <h6>Coded by <NewTab href='https://www.seanaleid.com/' target='_blank'>Sean Naleid</NewTab></h6>
     </Foot>
   )
 }

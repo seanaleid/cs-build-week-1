@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import produce from 'immer';
 import styled from 'styled-components';
-import {hammerhead, pentadecathlon, pulsar} from './examples.js';
+// import {hammerhead, pentadecathlon, pulsar} from './examples.js';
+
 
 const GridContainer = styled.div`
   width: 50%;
@@ -13,20 +14,29 @@ const MainGrid = styled.div`
   margin: 2%;
   display: flex;
   justify-content:center;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  justify-content: space-evenly;
+  display: 'grid',
+  gridTemplateColumns: repeat(gridColumns), 20px),
 `;
 
 const Controls = styled.div`
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 `;
 
-const gridRows = 25;
-const gridColumns = 25;
+const Generation = styled.p`
+  color: rgba(31,199,66,1);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: bold;
+`;
+
+const Select = styled.select`
+  border-radius: 10%;
+  height: 50%;
+`;
+
+// const gridRows = 25;
+// const gridColumns = 25;
 
 const coordinates = [
     [1,-1],
@@ -39,20 +49,20 @@ const coordinates = [
     [0,-1]
 ];
 
-const createEmptyGrid = () => {
-  const rows = [];
-  for(let i = 0; i < gridRows; i++){
-    rows.push(Array.from(Array(gridColumns), () => 0));
-  };
-  console.log(rows);
-  return rows;
-};
+// const createEmptyGrid = () => {
+//   const rows = [];
+//   for(let i = 0; i < gridRows; i++){
+//     rows.push(Array.from(Array(gridColumns), () => 0));
+//   };
+//   console.log(rows);
+//   return rows;
+// };
 
-function Grid() {
+function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
   // Set up slices of state
-  const [grid, setGrid] = useState(() => {
-    return createEmptyGrid();
-  });
+  // const [grid, setGrid] = useState(() => {
+  //   return createEmptyGrid();
+  // });
   const gridRef = useRef(grid);
   gridRef.current = grid;
   const [running, setRunning] = useState(false);
@@ -132,10 +142,24 @@ function Grid() {
 
   return (
     <GridContainer>
+      <Controls>
+        <button onClick={gridDown}> - </button>
+        <Generation>{`Generation ${count}`}</Generation>
+        <button onClick={gridUp}> + </button>
+        <Select onChange={handleTimeChange}>
+          <option value='50'>50ms</option>
+          <option value='100'>100ms</option>
+          <option value='200'>200ms</option>
+          <option value='500'>500ms</option>
+          <option value='1000'>1000ms</option>
+        </Select>
+        {/* Input below works too! onChange not onClick */}
+        {/* <input type='range' min='50' max='1000' value={runTime} step='50' onChange={handleTimeChange}></input> */}
+      </Controls>
       <MainGrid
         style={{
           display: 'grid',
-          gridTemplateColumns: `repeat(${gridColumns}, 20px)`
+          gridTemplateColumns: `repeat(${gridColumns}, 20px)`,
         }}
       >
       {grid.map((rows, i) => 
@@ -151,15 +175,16 @@ function Grid() {
             style={{
               width: 20,
               height: 20,
-              backgroundColor: grid[i][j] ? 'rgb(31,199,66)' : undefined,
+              backgroundColor: grid[i][j] ? 'rgba(31,199,66,1)' : undefined,
               border: 'solid 1px rgba(191,191,191,0.2)',
-              borderRadius: '5px'
+              borderRadius: '5px',
+              
             }}
           />
         ))
       )}
       </MainGrid>
-      <Buttons>
+      <Controls>
         <button 
           onClick={() => {
             setRunning(!running);
@@ -190,50 +215,12 @@ function Grid() {
         >
           Clear
         </button>
-      </Buttons>
-      <Controls>
-        <button
-          onClick={gridDown}
-        ><span
-          role='img'
-          aria-label='emoji two arrows pointing to the left'
-        >⏪</span></button>
-        <p>{`Generation ${count}`}</p>
-        <button
-          onClick={gridUp}
-        ><span
-          role='img'
-          aria-label='emoji two arrows pointing to the right'
-        >⏩</span></button>
-        <select 
-          onChange={handleTimeChange}
-        >
-          <option value='50'>50ms</option>
-          <option value='100'>100ms</option>
-          <option value='200'>200ms</option>
-          <option value='500'>500ms</option>
-          <option value='1000'>1000ms</option>
-        </select>
-        {/* Input below works too! onChange not onClick */}
-        {/* <input type='range' min='50' max='1000' value={runTime} step='50' onChange={handleTimeChange}></input> */}
       </Controls>
-      <Controls>
-        <button
-          onClick={() => setGrid(hammerhead)}
-        >
-          Hammerhead
-        </button>
-        <button
-          onClick={() => setGrid(pentadecathlon)}
-        >
-          Pentadecathlon
-        </button>
-        <button
-          onClick={() => setGrid(pulsar)}
-        >
-          Pulsar
-        </button>
-      </Controls>
+      {/* <Controls>
+        <button onClick={() => setGrid(hammerhead)}> Hammerhead </button>
+        <button onClick={() => setGrid(pentadecathlon)}> Pentadecathlon </button>
+        <button onClick={() => setGrid(pulsar)}> Pulsar </button>
+      </Controls> */}
   </GridContainer>
   )
 }
