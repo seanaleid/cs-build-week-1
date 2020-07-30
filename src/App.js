@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 import Grid from './components/grid.js';
 import Rules from './components/rules.js';

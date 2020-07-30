@@ -8,6 +8,10 @@ const Foot = styled.div`
   justify-content: center;
 `;
 
+const Text = styled.h6`
+  font-family: 'Orbitron', sans-serif;
+`;
+
 const NewTab = styled.a`
   text-decoration: none;
   color: black;
@@ -19,7 +23,7 @@ const NewTab = styled.a`
 function Footer() {
   return (
     <Foot>
-      <h6>Coded by <NewTab href='https://www.seanaleid.com/' target='_blank'>Sean Naleid</NewTab></h6>
+      <Text>Coded by <NewTab href='https://www.seanaleid.com/' target='_blank'>Sean Naleid</NewTab></Text>
     </Foot>
   )
 }
