@@ -6,7 +6,6 @@ const Nav = styled.div`
   margin-top: 0;
   display: flex;
   justify-content: center;
-  background-color: rgb(90,90,90);
   color: white;
 `;
 
@@ -15,6 +14,7 @@ function Header() {
   return (
     <Nav >
       <h1>Conway's Game of Life</h1>
+      
     </Nav>
   )
 }

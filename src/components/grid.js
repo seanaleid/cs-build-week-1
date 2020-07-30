@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import produce from 'immer';
 import styled from 'styled-components';
+import {hammerhead, pentadecathlon} from './examples.js';
 
 const GridContainer = styled.div`
   width: 50%;
@@ -106,9 +107,6 @@ function Grid() {
     setCount(countRef.current+=1);
     setTimeout(simulation, runTimeRef.current);
   }, [runTime])
-  
-
- 
 
   const gridDown = () => {
     if (count > 1) {
@@ -154,7 +152,8 @@ function Grid() {
               width: 20,
               height: 20,
               backgroundColor: grid[i][j] ? 'rgb(31,199,66)' : undefined,
-              border: 'solid 1px rgba(191,191,191,0.2)'
+              border: 'solid 1px rgba(191,191,191,0.2)',
+              borderRadius: '5px'
             }}
           />
         ))
@@ -217,6 +216,18 @@ function Grid() {
         </select>
         {/* Input below works too! onChange not onClick */}
         {/* <input type='range' min='50' max='1000' value={runTime} step='50' onChange={handleTimeChange}></input> */}
+      </Controls>
+      <Controls>
+        <button
+          onClick={() => setGrid(hammerhead)}
+        >
+          Hammerhead
+        </button>
+        <button
+          onClick={() => setGrid(pentadecathlon)}
+        >
+          Pentadecathlon
+        </button>
       </Controls>
   </GridContainer>
   )
