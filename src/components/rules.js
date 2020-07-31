@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {hammerhead, pentadecathlon, pulsar} from './examples.js';
+import {hammerhead, pentadecathlon, pulsar, spaceInvader1, spaceInvader2, spaceInvader3, spaceInvader4, superMario, pacman, boo} from './examples.js';
 
 const RulesBox = styled.div`
   width: 50%;
-  
 `;
 
 const HowTo = styled.h1`
@@ -41,13 +40,14 @@ const Controls = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-top: 5%;
 `;
 
 const Button = styled.button`
   font-family: 'Orbitron', sans-serif;
 `;
 
-function Rules({grid, setGrid}) {
+function Rules({setColor, setGrid}) {
   return(
     <RulesBox>
       <HowTo>CONWAY'S GAME OF LIFE</HowTo>
@@ -65,6 +65,31 @@ function Rules({grid, setGrid}) {
         <Button onClick={() => setGrid(hammerhead)}> Hammerhead </Button>
         <Button onClick={() => setGrid(pentadecathlon)}> Pentadecathlon </Button>
         <Button onClick={() => setGrid(pulsar)}> Pulsar </Button>
+      </Controls>
+      <Controls>
+        <Button onClick={() => {
+          setGrid(spaceInvader1);
+          setColor('rgba(140, 20, 252, 1)');
+        }}> Space Invader 1 </Button>
+        <Button onClick={() => setGrid(spaceInvader2)}> Space Invader 2 </Button>
+      </Controls>
+      <Controls>
+        <Button onClick={() => setGrid(spaceInvader3)}> Space Invader 3 </Button>
+        <Button onClick={() => setGrid(spaceInvader4)}> Space Invader 4 </Button>
+      </Controls>
+      <Controls>
+        <Button onClick={() => {
+          setGrid(superMario);
+          setColor('rgba(207, 0, 15, 1)');
+        }}> Super Mario </Button>
+        <Button onClick={() => {
+          setGrid(pacman); 
+          setColor('rgba(240, 255, 0, 1)');
+        }}> Pacman </Button>
+        <Button onClick={() => {
+          setGrid(boo);
+          setColor('rgba(238, 238, 238, 1)');
+        }}> Boo </Button>
       </Controls>
     </RulesBox>
   )

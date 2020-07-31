@@ -34,6 +34,7 @@ function App() {
   const [grid, setGrid] = useState(() => {
     return createEmptyGrid();
   });
+  const [color, setColor] = useState('rgba(31,199,66,1)')
 
   return (
     <>
@@ -45,10 +46,13 @@ function App() {
             setGrid={setGrid}
             gridRows={gridRows}
             gridColumns={gridColumns}
+            color={color}
+            setColor={setColor}
           />
           <Rules
             grid={grid}
             setGrid={setGrid}
+            setColor={setColor}
           />
         </Mid>
         <Footer />
