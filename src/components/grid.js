@@ -60,7 +60,7 @@ const coordinates = [
     [0,-1]
 ];
 
-function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
+function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns, color, setColor}) {
   // Set up slices of state
   const gridRef = useRef(grid);
   gridRef.current = grid;
@@ -178,6 +178,7 @@ function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
           onClick={() => {
             setGrid(createEmptyGrid());
             setCount(1);
+            setColor('rgba(31,199,66,1)');
           }}
         >
           Clear
@@ -202,7 +203,7 @@ function Grid({createEmptyGrid, grid, setGrid, gridRows, gridColumns}) {
             style={{
               width: 20,
               height: 20,
-              backgroundColor: grid[i][j] ? 'rgba(31,199,66,1)' : undefined,
+              backgroundColor: grid[i][j] ? color : undefined,
               border: 'solid 1px rgba(191,191,191,0.2)',
               borderRadius: '5px',
               
