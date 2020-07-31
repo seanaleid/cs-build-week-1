@@ -62,20 +62,38 @@ function Rules({setColor, setGrid}) {
       <Bold>How to use the controls:</Bold>
       <P>If you're not sure where to begin? Click one of the example buttons below and hit 'Start'. You can also click the random button to generate a random grid. </P>
       <Controls>
-        <Button onClick={() => setGrid(hammerhead)}> Hammerhead </Button>
-        <Button onClick={() => setGrid(pentadecathlon)}> Pentadecathlon </Button>
-        <Button onClick={() => setGrid(pulsar)}> Pulsar </Button>
+        <Button onClick={() => {
+          setGrid(hammerhead);
+          setColor('rgba(31,199,66,1)');
+        }}> Hammerhead </Button>
+        <Button onClick={() => {
+          setGrid(pentadecathlon);
+          setColor('rgba(31,199,66,1)');
+        }}> Pentadecathlon </Button>
+        <Button onClick={() => {
+          setGrid(pulsar);
+          setColor('rgba(31,199,66,1)');
+        }}> Pulsar </Button>
       </Controls>
       <Controls>
         <Button onClick={() => {
           setGrid(spaceInvader1);
           setColor('rgba(140, 20, 252, 1)');
         }}> Space Invader 1 </Button>
-        <Button onClick={() => setGrid(spaceInvader2)}> Space Invader 2 </Button>
+        <Button onClick={() => {
+          setGrid(spaceInvader2);
+          setColor('rgba(31,199,66,1)');
+        }}> Space Invader 2 </Button>
       </Controls>
       <Controls>
-        <Button onClick={() => setGrid(spaceInvader3)}> Space Invader 3 </Button>
-        <Button onClick={() => setGrid(spaceInvader4)}> Space Invader 4 </Button>
+        <Button onClick={() => {
+          setGrid(spaceInvader3);
+          setColor('rgba(31,199,66,1)');
+        }}> Space Invader 3 </Button>
+        <Button onClick={() => {
+          setGrid(spaceInvader4);
+          setColor('rgba(31,199,66,1)');
+        }}> Space Invader 4 </Button>
       </Controls>
       <Controls>
         <Button onClick={() => {
